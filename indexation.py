@@ -53,8 +53,10 @@ def get_index(custom_phrases, vocab, ban_ngram_global, min_log_prob=-4.0, max_ph
 
     ban_ngram_local = set()  # these ngrams are banned only for given custom_phrases
     ngram_to_phrase_and_position = defaultdict(list)
+    seen_ngram_phrase = set()  # to track duplicates
 
     for custom_phrase in custom_phrases:
+        custom_phrase = custom_phrase.lower()  # convert to lowercase
         inputs = custom_phrase.split(" ")
         begin = 0
         index_keys = [{} for _ in inputs]  # key - letter ngram, index - beginning positions in phrase
@@ -90,7 +92,10 @@ def get_index(custom_phrases, vocab, ban_ngram_global, min_log_prob=-4.0, max_ph
                     continue
                 if ngram in ban_ngram_local:
                     continue
-                ngram_to_phrase_and_position[ngram].append((custom_phrase, b, real_length, lp))
+                ngram_tuple = (ngram, custom_phrase, b, real_length, lp)
+                if ngram_tuple not in seen_ngram_phrase:
+                    ngram_to_phrase_and_position[ngram].append((custom_phrase, b, real_length, lp))
+                    seen_ngram_phrase.add(ngram_tuple)
                 if len(ngram_to_phrase_and_position[ngram]) > max_phrases_per_ngram:
                     ban_ngram_local.add(ngram)
                     del ngram_to_phrase_and_position[ngram]
@@ -135,7 +140,7 @@ def process_files_in_directory(directory, ngram_index_name):
             file_path = os.path.join(directory, filename)
 
             # Apply the dictionary indexation function
-            indexed_content = index_dictionary(file_path, ngram_index_name)
+            index_dictionary(file_path, ngram_index_name)
             print(f"Indexed {file_path}")
 
 

@@ -16,6 +16,7 @@ model_path = '../input/coleridgemodels/' + model_name
 
 config = {'tokenizer': AutoTokenizer.from_pretrained(bert_path, do_lower_case=True),
           'bert_model_name': 'DeepPavlov/rubert-base-cased',
+          'optimizer_state_path': 'optimizer_state_dict',
           'bert_cfg_path': "bert_config.json",
           'batch_size': 8,
           'Epoch': 1,

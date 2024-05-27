@@ -65,7 +65,7 @@ class InputBuilder:
 
         if not infer:
             for part, target in zip(span_info_parts, targets):
-                c, start, end = map(int, part.split(" "))
+                start, end = map(int, part.split(" "))
                 tags[start:end] = [target] * (end - start)
 
         # get input features for characters

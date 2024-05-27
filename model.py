@@ -325,6 +325,7 @@ class AsrSpellchecker(nn.Module):
                 best_eval_loss = eval_loss
                 print("Saving the model")
                 torch.save(self.state_dict(), self.cfg['model_name'])
+                torch.save(self.optimizer.state_dict(), self.cfg['optimizer_state_path'])
             self.write_batch_accuracy("batch_accuracies")
 
     def save_accuracy_vals(self, predictions, targets):
