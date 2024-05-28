@@ -102,15 +102,6 @@ def search_index_for_hits(ngram2phrases, phrases, letters):
 
 
 def find_best_candidate_coverage(phrases, phrases2positions):
-    """Get maximum hit coverage for each phrase - within a moving window of length of the phrase.
-    Args:
-        phrases: List of all phrases in custom vocabulary. Position corresponds to phrase_id.
-        phrases2positions: a matrix of size (len(phrases), len(ASR-hypothesis)).
-            It is filled with 1.0 (hits) on intersection of letter n-grams and phrases that are indexed by these n-grams, 0.0 - elsewhere.
-    Returns:
-        candidate2coverage: list of size len(phrases) containing coverage (0.0 to 1.0) in best window.
-        candidate2position: list of size len(phrases) containing starting position of best window.
-    """
     num_phrases = len(phrases)
     candidate2coverage = [0.0] * num_phrases
     candidate2position = [-1] * num_phrases
